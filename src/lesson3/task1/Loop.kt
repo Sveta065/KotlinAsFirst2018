@@ -66,7 +66,19 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var i = 1
+    var number = n
+    while (number > 0) {
+        if (number / 10 > 0) {
+            i++
+        }
+        number /= 10
+    }
+    return i
+}
+
+
 
 /**
  * Простая
@@ -74,7 +86,17 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var a = 0
+    var b = 1
+    for (i in 1..n) {
+        val sum = a + b
+        a = b
+        b = sum
+    }
+    return a
+}
+
 
 /**
  * Простая
@@ -82,21 +104,49 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    val k1 = Math.max(m, n)
+    var k = m * n
+    for (i in k1..k) {
+        if (i % n == 0 && i % m == 0) {
+            k = i
+            break
+        }
+    }
+    return k
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var k = 0
+    for (i in 2..n) {
+        if (n % i == 0) {
+            k = i
+            break
+        }
+    }
+    return k
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var k = 1
+    for (i in n / 2 downTo 1) {
+        if (n % i == 0) {
+            k = i
+            break
+        }
+    }
+    return k
+}
 
 /**
  * Простая
@@ -105,7 +155,7 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean = (lcm(m, n) == m * n)
 
 /**
  * Простая
@@ -191,7 +241,29 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var s = 0
+    var i = 0
+    var b = 0
+    while (s < n) {
+        i += 1
+        b = i * i
+        var c = 0
+        var bb = b
+        while (bb != 0) {
+            bb /= 10
+            c += 1
+        }
+        s += c
+    }
+    if (s == n) return b % 10
+    else {
+        for (a in 1..s - n) {
+            b /= 10
+        }
+        return b % 10
+    }
+}
 
 /**
  * Сложная
