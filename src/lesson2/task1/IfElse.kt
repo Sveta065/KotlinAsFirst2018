@@ -3,6 +3,7 @@ package lesson2.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
+import lesson4.task1.abs
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.sqrt
@@ -71,6 +72,7 @@ fun ageDescription(age: Int): String {
         else -> "$age лет"
     }
 }
+
 /**
  * Простая
  *
@@ -105,10 +107,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    if ((kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2)) return 3
-    else if (kingX == rookX2 || kingY == rookY2) return 2
-    else if (kingX == rookX1 || kingY == rookY1) return 1
-    else return 0
+    return when {
+        ((kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2)) -> 3
+        (kingX == rookX2 || kingY == rookY2) -> 2
+        (kingX == rookX1 || kingY == rookY1) -> 1
+        else -> 0
+    }
 }
 
 /**
@@ -125,7 +129,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
     return when {
-        (kingX == rookX || kingY == rookY) && (kingX - bishopX == kingY - bishopY) -> 3
+        (kingX == rookX || kingY == rookY) && abs(kingX - bishopX) == abs(kingY - bishopY) -> 3
         abs(kingX - bishopX) == abs(kingY - bishopY) -> 2
         kingX == rookX || kingY == rookY -> 1
         else -> 0
@@ -169,15 +173,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    val longBC = b - c
-    val longBA = b - a
-    val longDC = d - c
-    val longDA = d - a
     return when {
-        a <= c && b <= d && b >= c -> longBC
-        a >= c && b <= d -> longBA
-        a <= c && b >= d -> longDC
-        a >= c && b >= d && d >= a -> longDA
+        a <= c && b <= d && b >= c -> b - c
+        a >= c && b <= d -> b - a
+        a <= c && b >= d -> d - c
+        a >= c && b >= d && d >= a -> d - a
         b == c && a == d -> 0
         else -> -1
     }

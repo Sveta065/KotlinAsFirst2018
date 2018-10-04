@@ -102,7 +102,6 @@ fun thirdDigit(number: Int): Int = (number % 1000) / 100
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int =
-
         (hoursArrive - hoursDepart) * 60 + (minutesArrive - minutesDepart)
 
 /**
