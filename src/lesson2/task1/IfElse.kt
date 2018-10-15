@@ -129,7 +129,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
     return when {
-        (kingX == rookX || kingY == rookY) && abs(kingX - bishopX) == abs(kingY - bishopY) -> 3
+        (kingX == rookX || kingY == rookY) && (abs(kingX - bishopX) == abs(kingY - bishopY)) -> 3
         abs(kingX - bishopX) == abs(kingY - bishopY) -> 2
         kingX == rookX || kingY == rookY -> 1
         else -> 0
@@ -145,7 +145,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if (a < b + c || b < a + c || c < a + b)
+    if (a < b + c && b < a + c && c < a + b)
         return when {
             sqr(a) == sqr(b) + sqr(c) || sqr(b) == sqr(a) + sqr(c) || sqr(c) == sqr(a) + sqr(b) -> 1
             sqr(a) >= sqr(b) + sqr(c) || sqr(b) >= sqr(a) + sqr(c) || sqr(c) >= sqr(a) + sqr(b) -> 2
