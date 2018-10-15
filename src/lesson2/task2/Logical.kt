@@ -2,6 +2,7 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import lesson4.task1.abs
 
 /**
  * Пример
@@ -31,7 +32,7 @@ fun isNumberHappy(number: Int): Boolean {
  * Считать, что ферзи не могут загораживать друг друга.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
-        y1 - x1 == y2 - x2 || x1 == x2 || y1 == y2 || x1 + y1 == x2 + y2
+        kotlin.math.abs(x2 - x1) == kotlin.math.abs(y2 - y1) || x1 == x2 || y1 == y2
 
 
 
@@ -42,8 +43,8 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
 fun daysInMonth(month: Int, year: Int): Int {
-    return when { (month == 4 || month == 6 || month == 9 || month == 11) -> 30
-        (year % 400 == 0) || (year % 4 == 0) && year % 100 != 0 && month == 2 -> 29
+    return when { month == 4 || month == 6 || month == 9 || month == 11 -> 30
+        year % 400 == 0 || year % 4 == 0 && year % 100 != 0 && month == 2 -> 29
         month == 2 -> 28
         else -> 31
     }

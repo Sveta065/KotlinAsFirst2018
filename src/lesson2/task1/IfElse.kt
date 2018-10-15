@@ -67,8 +67,8 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     return when {
-        ((age % 10 == 1) && (age % 100 != 11)) -> "$age год"
-        ((age % 10 in 1..4) && (age % 100 !in 11..14)) -> "$age года"
+        age % 10 == 1 && age % 100 != 11 -> "$age год"
+        age % 10 in 1..4 && age % 100 !in 11..14 -> "$age года"
         else -> "$age лет"
     }
 }
@@ -145,23 +145,14 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val ab = Math.max(a, b)
-    val hyp = Math.max(ab, c)
-    val cat1: Double
-    val cat2: Double
-    if (hyp == a) {
-        cat1 = b
-        cat2 = c} else if (hyp == b) {
-        cat1 = a
-        cat2 = c} else {
-        cat1 = a
-        cat2 = b}
-    val cos = (sqr(cat1) + sqr(cat2) - sqr(hyp)) / (2 * cat1 * cat2)
-    return when {
-        (cos > 0.0 && cos < 1.0) -> 0
-        (cos == 0.0) -> 1
-        (cos < 0.0 && cos > -1.0) -> 2
-        else -> -1}
+    if (a < b + c || b < a + c || c < a + b)
+        return when {
+            sqr(a) == sqr(b) + sqr(c) || sqr(b) == sqr(a) + sqr(c) || sqr(c) == sqr(a) + sqr(b) -> 1
+            sqr(a) >= sqr(b) + sqr(c) || sqr(b) >= sqr(a) + sqr(c) || sqr(c) >= sqr(a) + sqr(b) -> 2
+            sqr(a) <= sqr(b) + sqr(c) || sqr(b) <= sqr(a) + sqr(c) || sqr(c) <= sqr(a) + sqr(b) -> 0
+            else -> -1
+        }
+    return -1
 }
 
 /**
