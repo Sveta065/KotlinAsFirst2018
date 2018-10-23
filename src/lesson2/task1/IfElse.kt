@@ -111,7 +111,6 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
     else -> 0
 }
 
-
 /**
  * Простая
  *
