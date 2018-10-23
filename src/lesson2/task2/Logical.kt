@@ -20,11 +20,8 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean {
-    val a = number / 1000 + (number / 100 - (number / 1000) * 10)
-    val b = number % 10 + (number % 100 - number % 10) / 10
-    return a == b
-}
+fun isNumberHappy(number: Int): Boolean =
+        (number / 1000) + (number / 100 % 10) == ((number % 100) / 10) + (number % 10)
 
 /**
  * Простая
@@ -44,12 +41,11 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
  * Дан номер месяца (от 1 до 12 включительно) и год (положительный).
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
-fun daysInMonth(month: Int, year: Int): Int {
-    return when { month == 4 || month == 6 || month == 9 || month == 11 -> 30
-        year % 400 == 0 || year % 4 == 0 && year % 100 != 0 && month == 2 -> 29
-        month == 2 -> 28
-        else -> 31
-    }
+fun daysInMonth(month: Int, year: Int): Int = when {
+    month == 4 || month == 6 || month == 9 || month == 11 -> 30
+    year % 400 == 0 || year % 4 == 0 && year % 100 != 0 && month == 2 -> 29
+    month == 2 -> 28
+    else -> 31
 }
 
 /**
@@ -61,7 +57,7 @@ fun daysInMonth(month: Int, year: Int): Int {
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean =
-        r2 >= sqrt(pow(x1 - x2, 2.0) + pow(y1 - y2, 2.0)) + r1
+        sqr(x1 - x2) + sqr(y1 - y2) <= sqr(r1 - r2) && (r1 <= r2)
 
 /**
  * Средняя
