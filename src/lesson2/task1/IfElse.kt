@@ -130,7 +130,6 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
     else -> 0
 }
 
-
 /**
  * Простая
  *
