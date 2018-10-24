@@ -60,7 +60,6 @@ fun digitCountInNumber(n: Int, m: Int): Int =
             else -> digitCountInNumber(n / 10, m) + digitCountInNumber(n % 10, m)
         }
 
-
 /**
  * Тривиальная
  *
