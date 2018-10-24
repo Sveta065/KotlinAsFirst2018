@@ -228,7 +228,6 @@ fun sin(x: Double, eps: Double): Double {
     return end
 }
 
-
 /**
  * Средняя
  *
