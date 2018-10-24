@@ -68,8 +68,19 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
-
+fun digitNumber(n: Int): Int {
+    var num = n
+    var i = 0
+    when {
+        (n == 0) -> i = 1
+        else ->
+            while (num != 0) {
+                i += 1
+                num /= 10
+            }
+    }
+    return i
+}
 
 /**
  * Простая
@@ -77,7 +88,16 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var a = 0
+    var b = 1
+    for (i in 1..n) {
+        val sum = a + b
+        a = b
+        b = sum
+    }
+    return a
+}
 
 /**
  * Простая
@@ -85,21 +105,49 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    val k1 = Math.max(m, n)
+    var k = m * n
+    for (i in k1..k) {
+        if (i % n == 0 && i % m == 0) {
+            k = i
+            break
+        }
+    }
+    return k
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var k = 0
+    for (i in 2..n) {
+        if (n % i == 0) {
+            k = i
+            break
+        }
+    }
+    return k
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var k = 1
+    for (i in n / 2 downTo 1) {
+        if (n % i == 0) {
+            k = i
+            break
+        }
+    }
+    return k
+}
 
 /**
  * Простая
@@ -108,7 +156,7 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean = (lcm(m, n) == m * n)
 
 /**
  * Простая
@@ -117,7 +165,11 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    val j = Math.sqrt(n.toDouble()).toInt()
+    val k = Math.sqrt(m.toDouble()).toInt()
+    return (k * k == m) || (j * j == n) || (k != j)
+}
 
 /**
  * Средняя
@@ -135,7 +187,16 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var x1 = x
+    var steps = 0
+    while (x1 != 1) {
+        steps += 1
+        if (x1 % 2 == 0) x1 /= 2
+        else x1 = 3 * x1 + 1
+    }
+    return steps
+}
 
 /**
  * Средняя
@@ -144,7 +205,20 @@ fun collatzSteps(x: Int): Int = TODO()
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    val x1 = x % (2 * PI)
+    var end = x1
+    var num = x1
+    var i = 1.0
+    while (true) {
+        num = -num * sqr(x1) / (i + 1) / (i + 2)
+        if (Math.abs(num) < eps)
+            break
+        end += num
+        i += 2
+    }
+    return end
+}
 
 
 /**
@@ -154,7 +228,8 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double = sin(x + PI / 2, eps)
+
 
 /**
  * Средняя
@@ -163,7 +238,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    if(n < 10) return n
+    var number = n
+    var answer = 0
+    while (number > 0) {
+        answer = answer * 10 + number % 10
+        number /= 10
+    }
+    return answer
+}
 
 /**
  * Средняя
@@ -174,7 +258,8 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = revert(n) == n
+
 
 /**
  * Средняя
@@ -184,7 +269,16 @@ fun isPalindrome(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    val a = n % 10
+    var number = n / 10
+    while (number > 0) {
+        if (a != number % 10)
+            return true
+        number /= 10
+    }
+    return false
+}
 
 /**
  * Сложная
@@ -195,7 +289,29 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var s = 0
+    var i = 0
+    var b = 0
+    while (s < n) {
+        i += 1
+        b = i * i
+        var c = 0
+        var bb = b
+        while (bb != 0) {
+            bb /= 10
+            c += 1
+        }
+        s += c
+    }
+    if (s == n) return b % 10
+    else {
+        for (a in 1..s - n) {
+            b /= 10
+        }
+        return b % 10
+    }
+}
 
 /**
  * Сложная
@@ -206,5 +322,23 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var c = 1
+    var k = 0
+    var y = 1
+    while (k < n) {
+        c = fib(y)
+        k += digitNumber(c)
+        y++
+    }
+    return findingNumber(n, k, c)
+}
+
+fun findingNumber(n: Int, k: Int, c: Int): Int {
+    var c1 = c
+    for (i in 1..(k - n)) {
+        c1 /= 10
+    }
+    return c1 % 10
+}
 
