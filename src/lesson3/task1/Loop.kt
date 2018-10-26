@@ -246,7 +246,7 @@ fun cos(x: Double, eps: Double): Double = sin(x + PI / 2, eps)
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun revert(n: Int): Int {
-    if(n < 10) return n
+    if (n < 10) return n
     var number = n
     var answer = 0
     while (number > 0) {
@@ -296,29 +296,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int {
-    var s = 0
-    var i = 0
-    var b = 0
-    while (s < n) {
-        i += 1
-        b = i * i
-        var c = 0
-        var bb = b
-        while (bb != 0) {
-            bb /= 10
-            c += 1
-        }
-        s += c
-    }
-    if (s == n) return b % 10
-    else {
-        for (a in 1..s - n) {
-            b /= 10
-        }
-        return b % 10
-    }
-}
+fun squareSequenceDigit(n: Int): Int = TODO()
 
 /**
  * Сложная
