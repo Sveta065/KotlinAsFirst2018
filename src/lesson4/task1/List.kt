@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.minDivisor
 import kotlin.math.sqrt
 
 /**
@@ -115,14 +116,14 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double = v.map { it * it }.sum().run { Math.sqrt(this) }
 
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else list.sum() / list.size
 
 /**
  * Средняя
@@ -132,7 +133,12 @@ fun mean(list: List<Double>): Double = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val m = mean(list)
+    for (i in 0 until list.size)
+        list[i] -= m
+    return list
+}
 
 /**
  * Средняя
@@ -141,7 +147,12 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double = TODO()
+fun times(a: List<Double>, b: List<Double>): Double {
+    var pr = 0.0
+    for (i in 0 until a.size)
+        pr += a[i] * b[i]
+    return pr
+}
 
 /**
  * Средняя
@@ -151,7 +162,12 @@ fun times(a: List<Double>, b: List<Double>): Double = TODO()
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0.0 при любом x.
  */
-fun polynom(p: List<Double>, x: Double): Double = TODO()
+fun polynom(p: List<Double>, x: Double): Double {
+    var px = 0.0
+    for (i in 0 until p.size)
+        px += p[i] * Math.pow(x, i.toDouble())
+    return px
+}
 
 /**
  * Средняя
@@ -163,7 +179,11 @@ fun polynom(p: List<Double>, x: Double): Double = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+    for (i in 1 until list.size)
+        list[i] += list[i - 1]
+    return list
+}
 
 /**
  * Средняя
@@ -172,7 +192,16 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    val res = mutableListOf<Int>()
+    var x = n
+    while (x > 1) {
+        val m = minDivisor(x)
+        res.add(m)
+        x /= m
+    }
+    return res
+}
 
 /**
  * Сложная
@@ -181,7 +210,7 @@ fun factorize(n: Int): List<Int> = TODO()
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя
@@ -190,7 +219,16 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    val res = mutableListOf<Int>()
+    var x = n
+    if (x == 0) res.add(0)
+    else while (x >= 1) {
+        res.add(0, x % base)
+        x /= base
+    }
+    return res
+}
 
 /**
  * Сложная
@@ -200,7 +238,8 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String = convert(n, base).joinToString(separator = "",
+        transform = { if (it > 9) ('a' + it - 10).toString() else "$it" })
 
 /**
  * Средняя
@@ -209,7 +248,12 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var res = 0
+    for (i in 0 until digits.size)
+        res += (digits[i] * Math.pow(base.toDouble(), ((digits.size - 1 - i).toDouble()))).toInt()
+    return res
+}
 
 /**
  * Сложная
@@ -220,7 +264,17 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    var b1 = 1
+    var res = 0
+    str.reversed().forEach {
+        val n = if (it <= '9') it - '0'
+        else (it.toLowerCase() - 'a' + 10)
+        res += b1 * n
+        b1 *= base
+    }
+    return res
+}
 
 /**
  * Сложная
@@ -230,7 +284,26 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    val rLetter = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    val number = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    var rsystem = ""
+    var n1 = n
+    while (n1/ 1000 > 0) {
+        n1 -= number[12]
+        rsystem += rLetter[12]
+    }
+    while (n1 > 0) {
+        for (i in 0 until number.size) {
+            if (n1 < number[i]) {
+                n1 -= number[i - 1]
+                rsystem += rLetter[i - 1]
+                break
+            }
+        }
+    }
+    return rsystem
+}
 
 /**
  * Очень сложная
