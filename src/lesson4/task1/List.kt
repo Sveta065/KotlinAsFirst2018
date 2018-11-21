@@ -4,6 +4,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.minDivisor
+import java.lang.Math.pow
 import kotlin.math.sqrt
 
 /**
@@ -147,12 +148,8 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double {
-    var pr = 0.0
-    for (i in 0 until a.size)
-        pr += a[i] * b[i]
-    return pr
-}
+fun times(a: List<Double>, b: List<Double>): Double =
+        a.zip(b) { r, v -> r * v }.fold(0.0) { times, next -> times + next }
 
 /**
  * Средняя
@@ -162,12 +159,8 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0.0 при любом x.
  */
-fun polynom(p: List<Double>, x: Double): Double {
-    var px = 0.0
-    for (i in 0 until p.size)
-        px += p[i] * Math.pow(x, i.toDouble())
-    return px
-}
+fun polynom(p: List<Double>, x: Double): Double =
+        p.foldIndexed(0.0) { index, polynom, next -> polynom + next * pow(x, index.toDouble()) }
 
 /**
  * Средняя
@@ -289,7 +282,7 @@ fun roman(n: Int): String {
     val number = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
     var rsystem = ""
     var n1 = n
-    while (n1/ 1000 > 0) {
+    while (n1 / 1000 > 0) {
         n1 -= number[12]
         rsystem += rLetter[12]
     }
