@@ -110,9 +110,11 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = grades.entries.map { it.key }.groupBy { grades[it]!! }
-        .mapValues { (_, grade) -> grade.sortedDescending() }.toSortedMap(compareBy { -it })
-
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> =
+        grades.entries.map { it.key }
+                .groupBy { grades[it]!! }
+                .mapValues { (_, grade) -> grade.sortedDescending() }
+                .toSortedMap(compareBy { -it })
 
 /**
  * Простая
@@ -214,7 +216,7 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   subtractOf(a = mutableMapOf("a" to "z"), mapOf("a" to "z"))
  *     -> a changes to mutableMapOf() aka becomes empty
  */
-fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
+fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
     for ((key, value) in b) if (value == a[key]) a.remove(key)
 }
 
@@ -249,7 +251,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean =
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = list.groupingBy{it}.eachCount().filterValues { it > 1 }
+fun extractRepeats(list: List<String>): Map<String, Int> = list.groupingBy { it }.eachCount().filterValues { it > 1 }
 
 /**
  * Средняя
